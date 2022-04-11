@@ -22,8 +22,6 @@ flowchart TD
     LambdaC --> |update C| Shop[system B]
 ```
 
-## Flow
-
 ```mermaid
 flowchart TD
     classDef hyperlink fill:#aaa, color:#00f;
@@ -37,8 +35,6 @@ flowchart TD
     click SNSB href "https://github.com/"
 ```
 
-## Flow
-
 ```mermaid
 flowchart TD
     S3 --> |JSON| StateA(全商品の最新の情報を得る)
@@ -48,3 +44,21 @@ flowchart TD
     StateB --> |更新があったのでアップデート要求| SQS
 ```
 
+```mermaid
+flowchart TD
+    SystemA --> |misc events| SNS
+    subgraph ThisProject[このプロジェクト]
+        SNS
+    end
+    subgraph AnotherProjectA[ほかのプロジェクト]
+        SNS --> |event A| A[SQS]
+        A --> LambdaA[Lambda]
+    end
+    subgraph AnotherProjectB[ほかのプロジェクト]
+        SNS --> |event B| B[SQS]
+        B --> LambdaB[Lambda]
+    end
+    LambdaA --> SystemB
+    LambdaB --> SystemB
+    style ThisProject stroke:#0F0
+```
